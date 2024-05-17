@@ -1,0 +1,1 @@
+import{r as e}from"./request.7b4fbf82.js";const c=t=>e({method:"POST",url:"/homepage",data:t}).catch(o=>(console.log(o),o)),s=t=>e({method:"GET",url:"/products",params:t}).catch(o=>(console.log(o),o));export{c as a,s as g};
