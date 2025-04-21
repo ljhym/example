@@ -14,10 +14,25 @@
     <title>小霸王</title>
     <!--preload-links-->
     <!--app-context-->
-    <script type="module" crossorigin src="/example/game/assets/index-Brgse3E_.js"></script>
+    <script type="module" crossorigin src="/example/game/assets/index-IzA65h8z.js"></script>
     <link rel="stylesheet" crossorigin href="/example/game/assets/index-DdWPgVPn.css">
   </head>
   <body>
     <div id="app"><!--app-html--></div>
   </body>
+  <script type="text/javascript" src="./static/js/uni.webview.1.5.6.js"></script>
+  <script>
+    document.addEventListener('UniAppJSBridgeReady', function() {
+      console.log('UniAppJSBridgeReady', webuni)
+	  if (!uni.webView) {
+		  uni.webView = webuni
+	  } else {
+		  uni.webView = Object.assign(webuni, uni.webView)
+	  }
+      webuni?.webView?.getEnv(function(res) {
+        console.log('当前环境：' + JSON.stringify(res));
+      });
+      // uni.webview 
+    });
+  </script>
 </html>

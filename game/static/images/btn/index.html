@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body>
+<!-- 游戏按钮（示例结构） -->
+<button class="action-btn" data-vibe="50">🔥 连击按钮</button>
+
+<script>
+// ============== 极简振动控制器 ==============
+const vibe = {
+  enabled: true, // 全局振动开关
+  lastTime: 0,   // 节流标记
+
+  // 核心振动方法（自动处理连击）
+  pulse(ms = 50) { 
+    if (!this.enabled || !navigator.vibrate) return;
+    
+    // 极速节流（10ms间隔可连击）
+    const now = Date.now();
+    if (now - this.lastTime < 10) return;
+    this.lastTime = now;
+
+    // 执行振动（默认50ms短脉冲）
+    navigator.vibrate(ms);
+  }
+}
+
+// ============== 按钮绑定 ==============
+document.querySelectorAll('.action-btn').forEach(btn => {
+  // 触摸/鼠标按下时触发振动
+  btn.addEventListener('touchstart', () => {
+    const ms = parseInt(btn.dataset.vibe) || 50;
+    vibe.pulse(ms); 
+    // 这里添加你的游戏逻辑
+  });
+  
+  // 桌面端兼容
+  btn.addEventListener('mousedown', () => vibe.pulse());
+});
+
+// ============== 振动开关（可选） ==============
+document.querySelector('#toggleVibe')?.addEventListener('click', () => {
+  vibe.enabled = !vibe.enabled;
+});
+</script>
+</body>
+</html>
