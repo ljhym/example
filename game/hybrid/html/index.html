@@ -1,0 +1,79 @@
+<html lang="zh-cn">
+
+<head>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        .back {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            color: #fff;
+            top: 10px;
+            z-index: 100;
+            left: 10px;
+            display: block;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 23px;
+            padding-right: 2px;
+            border-radius: 50%;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="./data/uni.webview.1.5.6.js"></script>
+
+</head>
+
+<body>
+    <div style="width:100%;height:100%;max-width:100%;position: relative;">
+        <div id="back-btn" class="back">&lt;</div>
+            <div id="game">
+        </div>
+    </div>
+    </div>
+    <script>
+        // <web-view src="/hybrid/html/index.html"></web-view>
+        // 从URL参数获取云端ROM地址
+        const urlParams = new URLSearchParams(window.location.search);
+        const romUrl = urlParams.get("rom"); // 直接使用完整UR
+        // 从URL提取文件名（去掉路径和扩展名）
+        function getGameName(romUrl) {
+            return romUrl.split("/").pop().replace(".nes", "");
+        }
+
+        EJS_player = "#game";
+        EJS_core = "nes";
+        EJS_language = "zh-CN";
+        // EJS_gameName = "1942";
+        EJS_gameName = getGameName(romUrl); // 示例：显示"忍者神龟格斗"
+        EJS_color = "#000000";
+        EJS_startOnLoaded = true;
+        EJS_pathtodata = "./data/";
+        // EJS_gameUrl = "./1942[MS汉化](JU)[STG](0.31Mb).nes";
+        EJS_gameUrl = romUrl; // 动态加载ROM
+    </script>
+    <script src="./data/loader.js"></script>
+    <script>
+        document.addEventListener('UniAppJSBridgeReady', function () {
+            document.getElementById("back-btn").addEventListener("click", function () {
+                webuni.postMessage({
+                    data: {
+                        action: 'back'
+                    }
+                });
+            });
+            webuni.getEnv(function (res) {
+                console.log('当前环境：' + JSON.stringify(res));
+            });
+        })
+    </script>
+</body>
+
+</html>
